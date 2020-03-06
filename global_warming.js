@@ -21,12 +21,14 @@ function setup() {
 function draw() {
     image(img,0,0,dim,dim);
     //image(img, 0, 0, dim, dim);
-    console.log("h");
+    //console.log("h");
     //for (let i = 0; i < floor(random(1, floor(it/10))); i++) {
-        new Glitch(img).show();
-    // }
-    console.log("h");
-    // it++;
+        new Glitch(img).showLines();
+        for (let i = 0; i < floor(random(1, floor(it/10))); i++) {
+        new Glitch(img).showGlitch();
+     }
+    console.log(it);
+    it++;
 
 }
 
