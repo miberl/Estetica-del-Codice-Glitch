@@ -1,43 +1,39 @@
-let endimage;
-let xOG, yOG, xDEST, yDEST, w, h;
 function Glitch(img) {
-    let sx = floor(random(0, img.width));
-    let sy = floor(random(0, img.height));
-    let dx = floor(random(0, img.width));
-    let dy = floor(random(0, img.height));
-    let w = floor(random(0, img.width));
-    let h = floor(random(1, dim / 100));
-    let tmpImg = img.get(sx, sy, w, h);
 
 
     this.showLines = function () {
-        let im = horizLines(img);
-        image(im, 0, 0);
+        image(horizLines(img), 0, 0, dim, dim);
     }
 
-    this.showGlitch = function () {
-        image(tmpImg, dx, dy);
+    this.showCopies = function () {
+        let dx = floor(random(0, img.width));
+        let dy = floor(random(0, img.height));
+        image(copyGlitches(), dx, dy);
     }
 
 
 }
 
-// function glitches(img){
-    
-// }
+function copyGlitches() {
+    let sx = floor(random(0, img.width));
+    let sy = floor(random(0, img.height));
+    let w = floor(random(0, img.width));
+    let h = floor(random(1, dim / 100));
 
-function horizLines(srcImg) {
+    return img.get(sx, sy, w, h);
+}
 
-    let destPixels = createImage(srcImg.width, srcImg.height)//new Uint8ClampedArray(srcImg.pixels);
-    destPixels.loadPixels();
+function horizLines() {
 
-    for (let y = 0; y < srcImg.height; y++) {
-        if (floor(random(0,1500)) == y % 1500) {
-            for (let x = 0; x < srcImg.width; x++) {
-                destPixels.set(x, y, color(floor(random(0,250)),floor(random(0,250)),floor(random(0,250))));
-            }
+    let tmp = img.get();
+    tmp.loadPixels();
+
+    for (let i = 0; i < floor(random(0, 6)); i++) {
+        let y = floor(random(0, dim))
+        for (let x = 0; x < img.width; x++) {
+            tmp.set(x, y, color(floor(random(0, 250)), floor(random(0, 250)), floor(random(0, 250))));
         }
     }
-    destPixels.updatePixels();
-    return destPixels;
+    tmp.updatePixels();
+    return tmp;
 }

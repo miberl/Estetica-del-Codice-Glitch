@@ -5,7 +5,7 @@ let dim = 3927;
 let stelle = [];
 let stelleTracciate = [];
 let emissions;
-let it=1;
+let it = 1;
 
 function preload() {
     data = loadTable('./assets/DATA/c02_emissions.csv', 'csv', 'header');
@@ -19,14 +19,14 @@ function setup() {
 }
 
 function draw() {
-    image(img,0,0,dim,dim);
+    //image(img,0,0,dim,dim);
     //image(img, 0, 0, dim, dim);
     //console.log("h");
     //for (let i = 0; i < floor(random(1, floor(it/10))); i++) {
-        new Glitch(img).showLines();
-        for (let i = 0; i < floor(random(1, floor(it/10))); i++) {
-        new Glitch(img).showGlitch();
-     }
+    new Glitch(img).showLines();
+    for (let i = 0; i < floor(random(1, floor(it / 10))); i++) {
+        new Glitch(img).showCopies();
+    }
     console.log(it);
     it++;
 
