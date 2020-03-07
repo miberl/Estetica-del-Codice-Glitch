@@ -8,7 +8,6 @@ let emissions;
 let iterate = 1;
 
 function preload() {
-    data = loadTable('./assets/DATA/c02_emissions.csv', 'csv', 'header');
     img = loadImage('./assets/earth.jpg');
 }
 
