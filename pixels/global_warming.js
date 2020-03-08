@@ -1,27 +1,26 @@
-let data;
-let img;
-let tmpImg;
-let dim = 3937;
-let stelle = [];
-let stelleTracciate = [];
-let emissions;
+const dim = 3937;
 let iterate = 1;
+let img;
+let tick;
+
 
 function preload() {
     img = loadImage('./assets/earth.jpg');
+    tick = loadSound("./assets/clock_tick.mp3");
 }
 
 function setup() {
     createCanvas(dim, dim);
     image(img, 0, 0, dim, dim);
     frameRate(1);
-    //new Glitch(img,128).pixels();
+    
 }
 
 function draw() {
     console.log(iterate);
+    tick.play();
     if (iterate<dim/2)
-        new Glitch(img, iterate).pixels();
+        new Pixelate(img, iterate).pixels();
     else 
         new Dark(img).allDark();
     iterate = iterate * 2;
