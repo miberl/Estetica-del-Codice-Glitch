@@ -15,10 +15,15 @@ function setup() {
     createCanvas(dim, dim);
     image(img, 0, 0, dim, dim);
     frameRate(1);
+    //new Glitch(img,128).pixels();
 }
 
 function draw() {
-    new Glitch(img, iterate).pixels();
+    console.log(iterate);
+    if (iterate<dim/2)
+        new Glitch(img, iterate).pixels();
+    else 
+        new Dark(img).allDark();
     iterate = iterate * 2;
 }
 
