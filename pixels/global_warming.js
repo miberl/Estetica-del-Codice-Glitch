@@ -7,27 +7,34 @@ let phase = 0;
 let stelle = [];
 let data;
 let emissions;
-
+let song;
+let attimo = 0;
+let bars = 0;
 function preload() {
     img = loadImage("./assets/earth.jpg");
     tick = loadSound("./assets/clock_tick.mp3");
-    data = loadTable("./assets/c02_emissions.csv");
+    data = loadTable('./assets/c02_emissions.csv', 'csv', 'header');
+    song = loadSound("./assets/Nirvana_-_The_Man_Who_Sold_The_World_MTV_Unplugged.mp3");
 }
 
 function setup() {
+    song.play();
     createCanvas(dim, dim);
     image(img, 0, 0, dim, dim);
     frameRate(1);
     emissions = data.getColumn("average");
+    for (let i = 0; i < emissions.length; i++)
+        console.log(emissions[i]);
 }
 
 function draw() {
+    attimo = attimo + 1;
 
     switch (phase) {
         case 0:
             image(img, 0, 0, dim, dim);
             iterate++;
-            if (iterate == 10) {
+            if (iterate == 15) {
                 phase = 1;
                 iterate = 0;
             }
@@ -41,7 +48,7 @@ function draw() {
             }
 
             iterate++;
-            if (iterate == 30) {
+            if (iterate == 40) {
                 phase = 2;
                 iterate = 0;
             }
@@ -56,14 +63,22 @@ function draw() {
                 iterate = 0;
                 phase = 3;
             }
+
             break;
 
         case 3:
             new ColouredBars(img, iterate).antiShow();
             iterate++;
-            if (iterate == 8) {
-                iterate = 4;
-                phase = 4;
+            if (iterate == 9) {
+                if (bars == 1) {
+                    iterate = 1;
+                    phase = 4;
+                }
+                else {
+                    iterate = 0;
+                    phase = 2;
+                    bars = 1;
+                }
             }
             break;
 
@@ -75,7 +90,6 @@ function draw() {
                 phase = 5;
                 iterate = 0;
             }
-            tick.play();
             break;
 
         case 5:
@@ -87,10 +101,10 @@ function draw() {
                 }
                 console.log("Star initialized");
             }
-            if (iterate == 2)
+            if (iterate == 4)
                 phase = 6;
             iterate++;
-            tick.play();
+            //tick.play();
             break;
 
         case 6:
@@ -103,7 +117,7 @@ function draw() {
             if (iterate == 5) {
                 phase = 7;
             }
-            tick.play();
+            //tick.play();
             iterate++;
             break;
 
@@ -116,33 +130,44 @@ function draw() {
                 stelle[i].show();
             }
             iterate += 15;
-            if (iterate > 255)
+            if (iterate > 255) {
                 phase = 8;
-            tick.play();
+                iterate = 0;
+            }
+
+            //tick.play();
             break;
 
+        case 8:
+            image(img, 0, 0, dim, dim);
+            console.log("attimo = " + attimo);
+            // stelle[i].setY((map(emissions[i],310,415,3700,200)));
+            phase = 9;
+            break;
 
+        case 9:
 
+            let dataPoint = floor(emissions.length/27);
+            image (img,0,0,dim,dim);
+            for (let i = (iterate*dataPoint);i<(iterate+1)*dataPoint&&i<emissions.length;i++){
+               
+                stelle[i].setY(floor(map(emissions[i],310,415,3700,200)));
+            }
+            for (let i = 0; i < emissions.length; i++) {
+                stelle[i].show();
+            }
+            iterate++;
+            console.log(iterate);
+            if (iterate==28)
+                phase = 10;
+            break;
+           
         default:
             console.log("Execution finished");
             noLoop();
 
     }
 }
-
-
-    // emissions = data.getColumn("average");
-    // for (let i = 0; i < emissions.length; i++) {
-    //     stelle[i] = new Star(i * (dim / emissions.length));
-    //     stelle[i].show();
-    // }
-
-
-    // if (iterate < dim / 2)
-    //     new Pixelate(img, iterate).pixels();
-    // else
-    //     new Dark(img).allDark();
-    // iterate = iterate * 2;
 
 
 
