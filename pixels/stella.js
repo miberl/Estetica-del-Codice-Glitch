@@ -10,25 +10,31 @@ function Star(x) {
     this.x = x;
     fill(255);
     stroke(255);
-    let weight = random(2, 5);
+    let weight = floor(random(2, 5)); 
+    strokeWeight(weight);
     this.y = placeStar(x);
     y=this.y;
-    strokeWeight(weight);
+
     this.show = function () {
         point(this.x, this.y);
     }
+
     this.getX = function(){
         return x;
     }
+
     this.getY = function(){
         return y;
     }
+
     this.setX = function(x){
         this.x = x;
     }
+
     this.setY = function(y1){
         this.y = y1;
     }
+
 }
 
 function placeStar(x) { // Sceglie casualmente la posizione (y) dove si trovera' la 'stella'

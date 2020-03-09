@@ -21,16 +21,17 @@ function ColouredBars(img, bar_number) {
     }
 
     this.showSingleBar = function () {              //Questa funzione restituisce una barra singola, di indice indicato.
-        colourBar(bar_number);                      //Utilizzata per dare l'effetto "glitching"
+        colourBar(bar_number);                      //Utilizzata per dare l'effetto "glitching".
     }
 
 }
 
 function colourBar(number) {
-    let startPixel = floor(img.width / 8) * number;
-    push();                                         //Vengono salvate 
+    let startPixel = floor(img.width / 8) * number; //Valore corrispondente alla posizione x del primo pixel della barra da disegnare.
+    push();                                         //Vengono salvate le impostazioni di disegno corrente (senza il tint()).
     let tmp = img.get(startPixel, 0, floor(img.width / 8), img.height);
-    switch (number) {
+    
+    switch (number) {                               //Switch-case con valore tint() corr. alla barra, secondo colori dello standard SMPTE
         case 0:
             tint(0, 0, 0);
             break;
@@ -58,8 +59,9 @@ function colourBar(number) {
         default:
             console.log("End of colours");
     }
-    image(tmp, floor(dim / 8) * number, 0, dim / 8, dim);
-    pop();
+
+    image(tmp, floor(dim / 8) * number, 0, dim / 8, dim);   //Disegno l'immagine a partire dal primo pixel con dimensione del canvas / num_barre (8).
+    pop();                                                  //Ripristina il tint() al valore precedente (al push()). 
 }
 
 
