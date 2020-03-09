@@ -5,8 +5,14 @@ function ColouredBars(img, bar_number) {
             colourBar(i);
         }
     }
+    this.antiShow = function () {
+        image(img, 0, 0, dim, dim);
+        for (let i = bar_number; i < 8; i++){
+            colourBar(i);
+        }
+    }
 
-    this.showSingleBar = function(){
+    this.showSingleBar = function () {
         colourBar(bar_number);
     }
 
@@ -22,30 +28,30 @@ function colourBar(number) {
             tint(0, 0, 0);
             break;
         case 1:
-            tint (237,238,82);
+            tint(237, 238, 82);
             break;
         case 2:
-            tint(98,210,197);
+            tint(98, 210, 197);
             break;
         case 3:
-            tint(99,210,66);
+            tint(99, 210, 66);
             break;
         case 4:
-            tint(156,48,174);
+            tint(156, 48, 174);
             break;
         case 5:
-            tint(106,28,25);
+            tint(106, 28, 25);
             break;
         case 6:
-            tint(22,33,160);
+            tint(22, 33, 160);
             break;
         case 7:
-            tint(0,0,0);
+            tint(0, 0, 0);
             break;
         default:
             console.log("End of colours");
     }
-    image(tmp,floor(dim/8)*number,0,dim/8,dim);
+    image(tmp, floor(dim / 8) * number, 0, dim / 8, dim);
     pop();
 }
 
