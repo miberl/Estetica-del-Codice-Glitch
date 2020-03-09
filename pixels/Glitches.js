@@ -6,44 +6,48 @@ Questo oggetto si occupa di creare vari effetti glitch, tra cui:
     -copia di elementi di dimensione casuale in posizione casuale
 */
 
-
 function Glitch(img) {
-    
+
     this.show = function () {
 
-        let im_final = horizColour();
-        im_final = horizLines(im_final);
-        image(im_final, 0, 0, dim, dim);
+        let im_final = horizColour();                                   //Colora con bande orizzontali l'immagine 
+        im_final = horizLines(im_final);                                //Imposta le linee orizzontali 
+        image(im_final, 0, 0, dim, dim);                                //Disegna l'immagine
 
-        for (let i = 0; i < floor(random(6, 12)); i++) {
-            let dx = floor(random(0, img.width));
-            let dy = floor(random(0, img.height));
-            image(copyGlitches(), dx, dy);
+        for (let i = 0; i < floor(random(6, 12)); i++) {                //Sceglie casualmente il numero di copyGlitch() 
+            let dx = floor(random(0, img.width));                       //Sceglie casualmente dove posizionare la porzione
+            let dy = floor(random(0, img.height));                      //dell'immagine restituita
+            image(copyGlitches(), dx, dy);                              //Questo metodo e' piu' efficiente di usare copy()
         }
 
-        let shiftX = floor(random(-400, 400));
-        let heightY = floor(random(1, 400));
-        let startY = floor(random(1500, img.height - 1500));
-        
+        let shiftX = floor(random(-400, 400));                          //Sceglie casualmente di quanto spostare l'asse x
+        let heightY = floor(random(1, 400));                            //Quanti pixel (asse y) sposto
+        let startY = floor(random(1500, img.height - 1500));            //A che altezza inizia lo spostamento
+
+        //Sposta temporaneamente sull'asse x una porzione casuale dell'immagine, donando l'effetto "Shiftato"
+        //La funzione copy() in questo caso copia una regione del canvas più a dx o sx sulla stessa y
+
         copy(0, startY, img.width, heightY, shiftX, startY, img.width, heightY);
 
     }
 
 }
 
+/*
+    Crea bande orizzontali sovrapposte all'immagine di altezza casuale.
+*/
+
 function horizColour() {
-    let shiftX;
     let heightY;
     let startY;
     let col;
 
     img.loadPixels();
-    let tmpimage = createImage(img.width, img.height);
-    tmpimage.loadPixels();
+    let tmpimage = createImage(img.width, img.height);              //Crea un'immagine temporanea di pixel vuoti
+    tmpimage.loadPixels();                                          //Li carica
 
-    for (let y = 0; y < img.height; y++) {
-
-        for (let x = 0; x < img.width; x++) {
+    for (let y = 0; y < img.height; y++) {                          //Iterando per tutti i pixel, assegna il valore RGBA dell'immagine
+        for (let x = 0; x < img.width; x++) {                       //base al corrispondente pixel dell'immagine temporanea.
 
             let index = (((y) * img.width) + x) * 4;
             let r = index;
@@ -60,13 +64,13 @@ function horizColour() {
     }
 
 
-    for (let i = 0; i < floor(random(1, 3)); i++) {
-        shiftX = floor(random(1, 350));
-        heightY = floor(random(100, 300));
-        startY = floor(random(1500, img.height - 1500));
-        col = floor(random(0, 2));
-        for (let y = startY; y < startY + heightY; y++) {
-            for (let x = 0; x < img.width; x++) {
+    for (let i = 0; i < floor(random(1, 3)); i++) {                     //Crea una o due bande
+
+        startY = floor(random(1500, img.height - 1500));                //Sceglie casualmente il valore dell'altezza dove posizionare la banda
+        heightY = floor(random(100, 300));                              //Sceglie casualmente il valore dell'altezza della banda stessa
+        col = floor(random(0, 2));                                      //Sceglie casualmente il colore
+        for (let y = startY; y < startY + heightY; y++) {               //Cominciando dall'altezza della banda per (heightY) volte 
+            for (let x = 0; x < img.width; x++) {                       //colora di col ogni pixel
 
                 let index = (((y) * img.width) + x) * 4;
                 let r = index;
@@ -74,15 +78,14 @@ function horizColour() {
                 let b = index + 2;
                 let a = index + 3;
 
-                switch (col) {
+                switch (col) {                                          //Scelta colore
                     case 0:
-                        tmpimage.pixels[r] = floor(random(200, 255));
-                        //tmpimage.pixels[b] = floor(random(0, 150));
+                        tmpimage.pixels[r] = floor(random(200, 255));   //Banda rosso/magenta orizziontale
                         tmpimage.pixels[g] = 0;
                         break;
                     case 1:
-                        tmpimage.pixels[g] = floor(random(200, 255));
                         tmpimage.pixels[r] = 0;
+                        tmpimage.pixels[g] = floor(random(200, 255));   //Banda verde acceso orizzontale
                         break;
                 }
 
@@ -90,66 +93,38 @@ function horizColour() {
         }
     }
 
-    tmpimage.updatePixels();
-    return tmpimage;
+    tmpimage.updatePixels();                                            //Aggiorna tmpimage con i pixel con banda.
+    return tmpimage;                                                    //Restituisce tmpimage al chiamante.
 }
 
-
-function shiftImage() {
-
-    let shiftX = floor(random(1, 350));
-    let heightY = floor(random(100, 400));
-    let startY = floor(random(1500, img.height - 1500));
-    let tmpimg = 4 * (heightY) * (img.width - shiftX);
-    tmpimg.loadPixels();
-    img.loadPixels();
-
-    for (let y = 0; y < heightY; y++) {
-        for (let x = 0; x < img.width - shiftImage; x++) {
-            let tmpindex = (((img.width - shiftImage) * y) + x) * 4;
-            let index = (((startY + y) * x) + x) * 4;
-            let r = index;
-            let g = index + 1;
-            let b = index + 2;
-            let a = index + 3;
-            let rtmp = tmpindex;
-            let gtmp = tmpindex + 1;
-            let btmp = tmpindex + 2;
-            let atmp = tmpindex + 3;
-            tmpimg.pixels[rtmp] = img.pixels[r];
-            tmpimg.pixels[gtmp] = img.pixels[g];
-            tmpimg.pixels[btmp] = img.pixels[b];
-            tmpimg.pixels[atmp] = img.pixels[a];
-        }
-    }
-
-
-    tmpimg.updatePixels();
-    image(tmpimg, shiftImage, startY);
-}
-
+/*
+    Restituisce una regione casuale del canvas, dando l'effetto errore di trasmissione 
+*/
 
 function copyGlitches() {
-    let sx = floor(random(0, img.width));
+    let sx = floor(random(0, img.width));                               //Sceglie x e y sorgente
     let sy = floor(random(0, img.height));
-    let w = floor(random(1, img.width));
+    let w = floor(random(1, img.width));                                //Altezza e Larghezza
     let h = floor(random(1, dim / 100));
 
-    return img.get(sx, sy, w, h);
+    return img.get(sx, sy, w, h);                                       //Restituisce la porzione dell'immagine corrispondente
 }
 
+/*
+    Crea linee orizzontali dai colori casuali, dall'effetto "rumore"
+*/
 
-function horizLines(im) {
+function horizLines(im) {               
 
-    let tmp = im.get();
+    let tmp = im.get();                                                 //Crea tmp con i pixel dell'immagine passata
     tmp.loadPixels();
 
-    for (let i = 0; i < floor(random(0, 6)); i++) {
-        let y = floor(random(0, dim))
-        for (let x = 0; x < img.width; x++) {
+    for (let i = 0; i < floor(random(0, 6)); i++) {                     //Crea da 0 a 5 linee orizzontali
+        let y = floor(random(0, dim))                                   //Sceglie l'altezza a cui posizionarla
+        for (let x = 0; x < img.width; x++) {                           //Imposta, pixel per pixel un valore casuale
             tmp.set(x, y, color(floor(random(0, 250)), floor(random(0, 250)), floor(random(0, 250))));
         }
     }
-    tmp.updatePixels();
-    return tmp;
+    tmp.updatePixels();                                                 //Aggiorna i pixel
+    return tmp;                                                         //Restituisce tmp al chiamante
 }
