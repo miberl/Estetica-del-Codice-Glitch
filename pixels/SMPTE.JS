@@ -1,27 +1,34 @@
+/*
+Questo oggetto si occupa di creare il cosidetto effetto SMPTE, cioè l'effetto delle "barre verticali", utilizzato come test di diagnostica 
+nei vecchi apparecchi televisivi.
+*/
+
+
 function ColouredBars(img, bar_number) {
 
-    this.show = function () {
-        for (let i = 0; i < bar_number; i++) {
-            colourBar(i);
-        }
-    }
-    this.antiShow = function () {
-        image(img, 0, 0, dim, dim);
-        for (let i = bar_number; i < 8; i++){
-            colourBar(i);
+    this.show = function () {                       //Questa funzione produce l'effetto delle "barre che si muovono", da destra verso sinistra,
+        for (let i = 0; i < bar_number; i++) {      //una dopo l'altra.
+            colourBar(i);                           //Viene chiamata la funzione unica colourBar che passando, uno dopo l'altro (fino all'indice indicato), 
+                                                    //"tinteggia" la barra con il colore corrispondente.
         }
     }
 
-    this.showSingleBar = function () {
-        colourBar(bar_number);
+    this.antiShow = function () {                   //Questa funzione produce l'effetto inverso di show(), cioè quello delle "barre che scompaiono",
+        image(img, 0, 0, dim, dim);                 //da destra verso sinistra.
+        for (let i = bar_number; i < 8; i++) {      //Per ottenere l'effetto viene disegnata l'immagine originale e ad ogni iterazione
+            colourBar(i);                           //viene tinteggiata una barra in meno.
+        }
+    }
+
+    this.showSingleBar = function () {              //Questa funzione restituisce una barra singola, di indice indicato.
+        colourBar(bar_number);                      //Utilizzata per dare l'effetto "glitching"
     }
 
 }
 
 function colourBar(number) {
     let startPixel = floor(img.width / 8) * number;
-    //let endPixel = floor(img.width / 8) * (number + 1) - 1;
-    push();
+    push();                                         //Vengono salvate 
     let tmp = img.get(startPixel, 0, floor(img.width / 8), img.height);
     switch (number) {
         case 0:

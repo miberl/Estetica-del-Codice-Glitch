@@ -23,8 +23,6 @@ function setup() {
     image(img, 0, 0, dim, dim);
     frameRate(1);
     emissions = data.getColumn("average");
-    for (let i = 0; i < emissions.length; i++)
-        console.log(emissions[i]);
 }
 
 function draw() {
@@ -48,7 +46,7 @@ function draw() {
             }
 
             iterate++;
-            if (iterate == 40) {
+            if (iterate == 35) {
                 phase = 2;
                 iterate = 0;
             }
@@ -135,33 +133,30 @@ function draw() {
                 iterate = 0;
             }
 
-            //tick.play();
             break;
 
         case 8:
             image(img, 0, 0, dim, dim);
             console.log("attimo = " + attimo);
-            // stelle[i].setY((map(emissions[i],310,415,3700,200)));
             phase = 9;
             break;
 
         case 9:
 
-            let dataPoint = floor(emissions.length/27);
-            image (img,0,0,dim,dim);
-            for (let i = (iterate*dataPoint);i<(iterate+1)*dataPoint&&i<emissions.length;i++){
-               
-                stelle[i].setY(floor(map(emissions[i],310,415,3700,200)));
+            let dataPoint = floor(emissions.length / 27);
+            image(img, 0, 0, dim, dim);
+            for (let i = (iterate * dataPoint); i < (iterate + 1) * dataPoint && i < emissions.length; i++) {
+                stelle[i].setY(floor(map(emissions[i], 310, 415, 3700, 200)));
             }
             for (let i = 0; i < emissions.length; i++) {
                 stelle[i].show();
             }
             iterate++;
             console.log(iterate);
-            if (iterate==28)
+            if (iterate == 28)
                 phase = 10;
             break;
-           
+
         default:
             console.log("Execution finished");
             noLoop();

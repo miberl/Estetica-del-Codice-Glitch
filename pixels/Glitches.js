@@ -12,7 +12,7 @@ function Glitch(img) {
             image(copyGlitches(), dx, dy);
         }
         let shiftX = floor(random(-400, 400));
-        let heightY = floor(random(0, 400));
+        let heightY = floor(random(1, 400));
         let startY = floor(random(1500, img.height - 1500));
         
         copy(0, startY, img.width, heightY, shiftX, startY, img.width, heightY);
@@ -51,7 +51,7 @@ function changeHSB() {
 
 
     for (let i = 0; i < floor(random(1, 3)); i++) {
-        shiftX = floor(random(0, 350));
+        shiftX = floor(random(1, 350));
         heightY = floor(random(100, 300));
         startY = floor(random(1500, img.height - 1500));
         col = floor(random(0, 2));
@@ -87,7 +87,7 @@ function changeHSB() {
 
 function shiftImage() {
 
-    let shiftX = floor(random(0, 350));
+    let shiftX = floor(random(1, 350));
     let heightY = floor(random(100, 400));
     let startY = floor(random(1500, img.height - 1500));
     let tmpimg = 4 * (heightY) * (img.width - shiftX);
@@ -95,11 +95,7 @@ function shiftImage() {
     img.loadPixels();
 
 
-    // for (let y = startY; y < startY+heightY;y++){
-    //     for (let x = 0; x<img.width-shiftImage;x++){
-    //         tmpimg.pixels
-    //     }
-    // }
+   
 
 
     for (let y = 0; y < heightY; y++) {
@@ -126,39 +122,11 @@ function shiftImage() {
     image(tmpimg, shiftImage, startY);
 }
 
-function horizMove() {
-    let tmp = img.get();
-    tmp.loadPixels();
-
-    console.log("Hello");
-
-    let r = floor(random(1, 7));
-    let r1 = floor(random(0, floor(img.height / r)));
-    let y = 0;
-    for (let i = 1; i < r + 1; i++) {
-        console.log("dere");
-        let shift = floor(random(0, 400));
-        while (y < floor(img.height / r) * i && y < img.height) {
-            for (let x = shift; x < img.width; x++) {
-                if (x < img.width)
-                    tmp.set(x, y, img.get(x - (shift - 1), y));
-                console.log("weee");
-            }
-            y++;
-            console.log(y);
-        }
-    }
-
-
-    tmp.updatePixels();
-    return tmp;
-}
-
 
 function copyGlitches() {
     let sx = floor(random(0, img.width));
     let sy = floor(random(0, img.height));
-    let w = floor(random(0, img.width));
+    let w = floor(random(1, img.width));
     let h = floor(random(1, dim / 100));
 
     return img.get(sx, sy, w, h);
