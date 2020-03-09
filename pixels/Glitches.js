@@ -1,8 +1,17 @@
+/*
+Questo oggetto si occupa di creare vari effetti glitch, tra cui:
+    -linee orizzontali effetto interferenza (con colori casuali) 
+    -bande orizzontali 
+    -traslazione orizzontale del canvas
+    -copia di elementi di dimensione casuale in posizione casuale
+*/
+
+
 function Glitch(img) {
     
     this.show = function () {
 
-        let im_final = changeHSB();
+        let im_final = horizColour();
         im_final = horizLines(im_final);
         image(im_final, 0, 0, dim, dim);
 
@@ -11,6 +20,7 @@ function Glitch(img) {
             let dy = floor(random(0, img.height));
             image(copyGlitches(), dx, dy);
         }
+
         let shiftX = floor(random(-400, 400));
         let heightY = floor(random(1, 400));
         let startY = floor(random(1500, img.height - 1500));
@@ -21,7 +31,7 @@ function Glitch(img) {
 
 }
 
-function changeHSB() {
+function horizColour() {
     let shiftX;
     let heightY;
     let startY;
@@ -94,10 +104,6 @@ function shiftImage() {
     tmpimg.loadPixels();
     img.loadPixels();
 
-
-   
-
-
     for (let y = 0; y < heightY; y++) {
         for (let x = 0; x < img.width - shiftImage; x++) {
             let tmpindex = (((img.width - shiftImage) * y) + x) * 4;
@@ -131,6 +137,7 @@ function copyGlitches() {
 
     return img.get(sx, sy, w, h);
 }
+
 
 function horizLines(im) {
 
