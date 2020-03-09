@@ -25,20 +25,11 @@ function draw() {
 
     switch (phase) {
         case 0:
-            //frameRate(60);
-            //for (let i = 0; i < floor(random(0, 20)); i++) {
-            //new Glitch(img).showLines();
-            //new Glitch(img).showCopies();
-            //}
-            //new Glitch(img).showLines();
-            
 
             new Glitch(img).show();
-
-            // for (let i = 0; i < floor(random(3, 10)); i++) {
-            //     new Glitch(img).showCopies();
-            // }
-            if (iterate == 20) {
+            if (floor(random(0,3))==0)
+                new ColouredBars(img,floor(random(0,8))).showSingleBar();
+            if (iterate == 30) {
                 phase = 1;
                 iterate = 0;
             }
@@ -98,6 +89,14 @@ function draw() {
             if (iterate > 255)
                 phase = 5;
             tick.play();
+            break;
+
+        case 6:
+            console.log("Hello");
+            new ColouredBars(img,iterate).show();
+            if (iterate==8)
+                iterate=0;
+            iterate++;
             break;
 
         default:
